@@ -1,3 +1,14 @@
+import numpy as np
+
+def slice_data(data,index,axis):
+    """
+    Splits the data into multiple sections.
+    :param data: data to be sliced
+    :param index: either a int or a list of ints, [2,3] results in :2, 2:3 and 3:
+    :param axis: the axis to be sliced
+    :return: array of slices
+    """
+    return np.split(data,index,axis)
 
 def pressure_to_height(pressure):
     """
@@ -10,10 +21,10 @@ def pressure_to_height(pressure):
 
 def remove_outliers(data, m=2,axis=None):
     """
-
-    :param data: a array of [x,y] value pairs
+    :param data: an array of [x,y] value pairs
+    :param m: number of standard deviations the data can be from the mean
     :param axis: the axis to identify outliers by
     :return:
     """
-    # todo: is all data usefull? if so, then implement
+    # todo: is all data useful? if so, then implement
 
