@@ -1,8 +1,10 @@
+import math
+
 from numpy.polynomial.polynomial import polyfit
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from data_proccessing.core import remove_outliers
+from data_proccessing import remove_outliers
 
 def demmo_hist():
     before = np.random.randn(100, 3)
@@ -41,9 +43,10 @@ def plot_points(data,show=True):
 
 def plot_test():
 
-    x = np.arange(0, 5, 0.1)
+    x = np.arange(0, 6*math.pi, 0.1)
     y = np.sin(x)
     plt.plot(x, y)
+    plt.show()
 
 def scatter_plot_data(data, radius=20.0,label="Data",colour="tab:blue",show=True):
     """
@@ -69,3 +72,6 @@ def scatter_plot_data(data, radius=20.0,label="Data",colour="tab:blue",show=True
         ax.grid(True)
 
         plt.show()
+
+if __name__ == "__main__":
+    plot_test()
