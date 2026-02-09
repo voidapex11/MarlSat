@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from data_proccessing import remove_outliers
 
+
+
 def demmo_hist():
     before = np.random.randn(100, 3)
     plt.hist(pd.DataFrame(before))
@@ -13,8 +15,7 @@ def demmo_hist():
     plt.hist(remove_outliers(before))
     plt.show()
 
-
-def plot_best_fit(data,show=True):
+def plot_best_fit(data,show=True,plotter=plt):
     """
 
     :param data: a array of x y values
@@ -23,11 +24,11 @@ def plot_best_fit(data,show=True):
     x = data[:, 0]
     y = data[:, 1]
     b, m = polyfit(x, y, 1)
-    plt.plot(x, b + m * x, '-')
+    plotter.plot(x, b + m * x, '-')
     if show:
-        plt.show()
+        plotter.show()
 
-def plot_points(data,show=True):
+def plot_points(data,show=True,plotter=plt):
     """
 
     :param x:
@@ -37,9 +38,9 @@ def plot_points(data,show=True):
     """
     x = data[:, 0]
     y = data[:, 1]
-    plt.plot(x, y, '.')
+    plotter.plot(x, y, '.')
     if show:
-        plt.show()
+        plotter.show()
 
 def plot_test():
 
@@ -48,7 +49,7 @@ def plot_test():
     plt.plot(x, y)
     plt.show()
 
-def scatter_plot_data(data, radius=20.0,label="Data",colour="tab:blue",show=True):
+def scatter_plot_data(data, radius=20.0,label="Data",colour="tab:blue",plotter=plt,show=True):
     """
 
     >>> scatter_plot_data(np.random.randn(100, 2))
@@ -58,7 +59,7 @@ def scatter_plot_data(data, radius=20.0,label="Data",colour="tab:blue",show=True
     :param label: The label of the data
     :return: None
     """
-    fig, ax = plt.subplots()
+    fig, ax = plotter.subplots()
     n = 750
     x = data[:,0]
     y = data[:,1]
@@ -67,11 +68,10 @@ def scatter_plot_data(data, radius=20.0,label="Data",colour="tab:blue",show=True
     scale = [radius for _ in data]# * np.random.rand(n)
     ax.scatter(x, y, c=colour, s=scale, label=label,
                alpha=0.3, edgecolors='none')
+    ax.legend()
+    ax.grid(True)
     if show:
-        ax.legend()
-        ax.grid(True)
-
-        plt.show()
+        plotter.show()
 
 if __name__ == "__main__":
     plot_test()

@@ -1,6 +1,9 @@
 import numpy as np
 
-def slice_data(data,index,axis):
+def slice_data_by_time_example(array,min,max):
+    b=array[(min<=array[:,1])&(array[:,1]<max)]
+
+def slice_data_by_index(data,index,axis):
     """
     Splits the data into multiple sections.
     :param data: data to be sliced
@@ -28,3 +31,5 @@ def remove_outliers(data, m=2,axis=None):
     """
     # todo: is all data useful? if so, then implement
 
+if __name__ == "__main__":
+    pass
