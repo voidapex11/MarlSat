@@ -1,23 +1,31 @@
-import pandas as pd
-import numpy as np
-import scipy as sp
-import matplotlib.pyplot as plt
-
 from numpy.polynomial.polynomial import polyfit
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from data_proccessing.core import remove_outliers
 
-def plot_best_fit(x,y,plot=True):
+def demmo_hist():
+    before = np.random.randn(100, 3)
+    plt.hist(pd.DataFrame(before))
+    plt.show()
+    plt.hist(remove_outliers(before))
+    plt.show()
+
+
+def plot_best_fit(data,show=True):
     """
 
-    :param x: a array of x axis values
-    :param y: a array of y axis values
+    :param data: a array of x y values
     :return: None
     """
+    x = data[:, 0]
+    y = data[:, 1]
     b, m = polyfit(x, y, 1)
     plt.plot(x, b + m * x, '-')
-    if plot:
+    if show:
         plt.show()
 
-def plot_points(x,y,show=True):
+def plot_points(data,show=True):
     """
 
     :param x:
@@ -25,6 +33,8 @@ def plot_points(x,y,show=True):
     :param show:
     :return:
     """
+    x = data[:, 0]
+    y = data[:, 1]
     plt.plot(x, y, '.')
     if show:
         plt.show()
@@ -35,7 +45,7 @@ def plot_test():
     y = np.sin(x)
     plt.plot(x, y)
 
-def scatter_plot_data(data, radius=20.0,label="Data",show=True):
+def scatter_plot_data(data, radius=20.0,label="Data",colour="tab:blue",show=True):
     """
 
     >>> scatter_plot_data(np.random.randn(100, 2))
@@ -47,37 +57,15 @@ def scatter_plot_data(data, radius=20.0,label="Data",show=True):
     """
     fig, ax = plt.subplots()
     n = 750
-    x = [data[i][0] for i in range(len(data))]
-    y = [data[i][1] for i in range(len(data))]
+    x = data[:,0]
+    y = data[:,1]
 
     #x, y = np.random.rand(2, n)
     scale = [radius for _ in data]# * np.random.rand(n)
-    ax.scatter(x, y, c="tab:blue", s=scale, label=label,
+    ax.scatter(x, y, c=colour, s=scale, label=label,
                alpha=0.3, edgecolors='none')
     if show:
         ax.legend()
         ax.grid(True)
 
         plt.show()
-
-def remove_outliers(data):
-    df = pd.DataFrame(data)
-
-    return df[(np.abs(sp.stats.zscore(df)) < 3).all(axis=1)]
-
-def hist():
-    before = np.random.randn(100, 3)
-    plt.hist(pd.DataFrame(before))
-    plt.hist(remove_outliers(before))
-    plt.show()
-
-
-def main():
-    x = np.arange(40)
-    y = 5 * x + 10 + 20*np.random.randn(40)
-    plot_points(x,y,show=False)
-    plot_best_fit(x,y)
-
-
-if __name__ == "__main__":
-    main()
