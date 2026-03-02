@@ -4,12 +4,32 @@ import numpy as np
 import quaternion
 import math
 
+from PIL.ImageChops import difference
 from quaternion import angular_velocity
 
 
 # target: https://docs.google.com/document/d/1ZrHmUzFSbimNmvZLT4MfxJwNgPxCKA-LfHc2wqpyyek/edit?tab=t.0
 
+
+def locate_nonlinear_region(x,y):
+    av_y = weighted_moving_average(x,y)
+    dy_dx = diferenciate(av_y,x)
+    av_dy_dx = weighted_moving_average(dy_dx,av_y)
+    dy2_dx2= diferenciate(av_dy_dx,x)
+    cords = np.array([x,y])
+    std = np.std(cords)
+    return cords[np.abs(cords[1])<2*std]
+
+
 def weighted_moving_average(x,y,step_size=0.05,width=1):
+    """
+    grabbed off of stack overflow
+    :param x: x values
+    :param y: y values
+    :param step_size:
+    :param width:
+    :return: weighted moving average
+    """
     bin_centers  = np.arange(np.min(x),np.max(x)-0.5*step_size,step_size)+0.5*step_size
     bin_avg = np.zeros(len(bin_centers))
 
